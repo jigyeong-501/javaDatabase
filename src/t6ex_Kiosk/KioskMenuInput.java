@@ -1,29 +1,42 @@
 package t6ex_Kiosk;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.SwingConstants;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
-import javax.swing.JTextArea;
-import javax.swing.JScrollPane;
-import javax.swing.JButton;
 import java.awt.Color;
-import javax.swing.ImageIcon;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.regex.Pattern;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+@SuppressWarnings({"rawtypes","unchecked","static-access"})
 public class KioskMenuInput {
+	private KioskDAO dao = new KioskDAO();
+	private KioskVO vo = null;
+	
+	private int res = 0;
 
 	private JFrame frame;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
+	private JTextField txtProduct;
+	private JTextField txtDetail;
+	private JTextField txtCalorie;
+	private JTextField txtPrice;
 
-	public static void main(String[] args) {
-		new KioskMenuInput();
-	}
+//	public static void main(String[] args) {
+//		new KioskMenuInput();
+//	}
 
 	public KioskMenuInput() {
 		initialize();
@@ -43,106 +56,119 @@ public class KioskMenuInput {
 		frame.getContentPane().add(pn1);
 		pn1.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("버거킹 메뉴 등록 화면");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("굴림", Font.BOLD, 22));
-		lblNewLabel.setBounds(0, 0, 784, 58);
-		pn1.add(lblNewLabel);
+		JLabel lblTitle = new JLabel("버거킹 메뉴 등록 화면");
+		lblTitle.setBackground(Color.PINK);
+		lblTitle.setOpaque(true);
+		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTitle.setFont(new Font("굴림", Font.BOLD, 22));
+		lblTitle.setBounds(0, 0, 784, 58);
+		pn1.add(lblTitle);
 		
 		JPanel pn1_1 = new JPanel();
 		pn1_1.setLayout(null);
 		pn1_1.setBounds(0, 56, 784, 448);
 		frame.getContentPane().add(pn1_1);
 		
-		JLabel lbl = new JLabel("상품분류");
-		lbl.setFont(new Font("굴림", Font.BOLD, 18));
-		lbl.setBounds(23, 28, 108, 31);
-		pn1_1.add(lbl);
+		JLabel lblPart = new JLabel("상품분류");
+		lblPart.setFont(new Font("굴림", Font.BOLD, 18));
+		lblPart.setBounds(23, 28, 108, 31);
+		pn1_1.add(lblPart);
 		
-		JLabel lbl_1 = new JLabel("상품명");
-		lbl_1.setFont(new Font("굴림", Font.BOLD, 18));
-		lbl_1.setBounds(23, 82, 108, 31);
-		pn1_1.add(lbl_1);
+		JLabel lblProduct = new JLabel("상품명");
+		lblProduct.setFont(new Font("굴림", Font.BOLD, 18));
+		lblProduct.setBounds(23, 82, 108, 31);
+		pn1_1.add(lblProduct);
 		
-		JLabel lbl_2 = new JLabel("간단설명");
-		lbl_2.setFont(new Font("굴림", Font.BOLD, 18));
-		lbl_2.setBounds(23, 134, 108, 31);
-		pn1_1.add(lbl_2);
+		JLabel lblDetile = new JLabel("간단설명");
+		lblDetile.setFont(new Font("굴림", Font.BOLD, 18));
+		lblDetile.setBounds(23, 134, 108, 31);
+		pn1_1.add(lblDetile);
 		
-		JLabel lbl_2_1 = new JLabel("상세설명");
-		lbl_2_1.setFont(new Font("굴림", Font.BOLD, 18));
-		lbl_2_1.setBounds(23, 189, 108, 31);
-		pn1_1.add(lbl_2_1);
+		JLabel lblContent = new JLabel("상세설명");
+		lblContent.setFont(new Font("굴림", Font.BOLD, 18));
+		lblContent.setBounds(23, 189, 108, 31);
+		pn1_1.add(lblContent);
 		
-		JLabel lblkcal = new JLabel("칼로리(kcal)");
-		lblkcal.setFont(new Font("굴림", Font.BOLD, 18));
-		lblkcal.setBounds(23, 273, 108, 31);
-		pn1_1.add(lblkcal);
+		JLabel lblKcal = new JLabel("칼로리(kcal)");
+		lblKcal.setFont(new Font("굴림", Font.BOLD, 18));
+		lblKcal.setBounds(23, 273, 108, 31);
+		pn1_1.add(lblKcal);
 		
-		JLabel lbl_4 = new JLabel("상품이미지");
-		lbl_4.setFont(new Font("굴림", Font.BOLD, 18));
-		lbl_4.setBounds(23, 391, 108, 31);
-		pn1_1.add(lbl_4);
+		JLabel lblImageName = new JLabel("상품이미지");
+		lblImageName.setFont(new Font("굴림", Font.BOLD, 18));
+		lblImageName.setBounds(23, 391, 108, 31);
+		pn1_1.add(lblImageName);
 		
-		JLabel lbl_5 = new JLabel("상품가격");
-		lbl_5.setFont(new Font("굴림", Font.BOLD, 18));
-		lbl_5.setBounds(23, 332, 108, 31);
-		pn1_1.add(lbl_5);
+		JLabel lblPrice = new JLabel("상품가격");
+		lblPrice.setFont(new Font("굴림", Font.BOLD, 18));
+		lblPrice.setBounds(23, 332, 108, 31);
+		pn1_1.add(lblPrice);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setFont(new Font("굴림", Font.PLAIN, 17));
-		comboBox.setBounds(158, 34, 316, 31);
-		pn1_1.add(comboBox);
+		JComboBox cbPart = new JComboBox();
+		cbPart.setModel(new DefaultComboBoxModel(new String[] {"프리미엄", "와퍼&주니어", "사이드"}));
+		cbPart.setFont(new Font("굴림", Font.PLAIN, 17));
+		cbPart.setBounds(158, 34, 316, 31);
+		pn1_1.add(cbPart);
 		
-		textField = new JTextField();
-		textField.setFont(new Font("굴림", Font.PLAIN, 18));
-		textField.setBounds(158, 82, 316, 31);
-		pn1_1.add(textField);
-		textField.setColumns(10);
+		txtProduct = new JTextField();
+		txtProduct.setFont(new Font("굴림", Font.PLAIN, 18));
+		txtProduct.setBounds(158, 82, 316, 31);
+		pn1_1.add(txtProduct);
+		txtProduct.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setFont(new Font("굴림", Font.PLAIN, 18));
-		textField_1.setColumns(10);
-		textField_1.setBounds(158, 134, 316, 31);
-		pn1_1.add(textField_1);
+		txtDetail = new JTextField();
+		txtDetail.setFont(new Font("굴림", Font.PLAIN, 18));
+		txtDetail.setColumns(10);
+		txtDetail.setBounds(158, 134, 316, 31);
+		pn1_1.add(txtDetail);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(158, 187, 316, 61);
 		pn1_1.add(scrollPane);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setFont(new Font("Monospaced", Font.PLAIN, 18));
-		scrollPane.setViewportView(textArea);
+		JTextArea taContent = new JTextArea();
+		taContent.setFont(new Font("Monospaced", Font.PLAIN, 18));
+		scrollPane.setViewportView(taContent);
 		
-		textField_2 = new JTextField();
-		textField_2.setFont(new Font("굴림", Font.PLAIN, 18));
-		textField_2.setColumns(10);
-		textField_2.setBounds(158, 273, 316, 31);
-		pn1_1.add(textField_2);
+		txtCalorie = new JTextField();
+		txtCalorie.setFont(new Font("굴림", Font.PLAIN, 18));
+		txtCalorie.setColumns(10);
+		txtCalorie.setBounds(158, 273, 316, 31);
+		pn1_1.add(txtCalorie);
 		
-		textField_3 = new JTextField();
-		textField_3.setFont(new Font("굴림", Font.PLAIN, 18));
-		textField_3.setColumns(10);
-		textField_3.setBounds(158, 332, 316, 31);
-		pn1_1.add(textField_3);
+		txtPrice = new JTextField();
+		txtPrice.setFont(new Font("굴림", Font.PLAIN, 18));
+		txtPrice.setColumns(10);
+		txtPrice.setBounds(158, 332, 316, 31);
+		pn1_1.add(txtPrice);
 		
-		JButton btnNewButton = new JButton("이미지등록");
-		btnNewButton.setFont(new Font("굴림", Font.BOLD, 18));
-		btnNewButton.setBounds(158, 391, 316, 31);
-		pn1_1.add(btnNewButton);
+		JButton btnImage = new JButton("이미지등록");
+		btnImage.setFont(new Font("굴림", Font.BOLD, 18));
+		btnImage.setBounds(158, 391, 316, 31);
+		pn1_1.add(btnImage);
 		
-		JLabel lblNewLabel_1 = new JLabel("상품 이미지가 표시됩니다.");
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setIcon(null);
-		lblNewLabel_1.setOpaque(true);
-		lblNewLabel_1.setBackground(Color.LIGHT_GRAY);
-		lblNewLabel_1.setBounds(511, 174, 245, 245);
-		pn1_1.add(lblNewLabel_1);
+		JLabel lblImage = new JLabel("상품 이미지가 표시됩니다.");
+		lblImage.setHorizontalAlignment(SwingConstants.CENTER);
+		lblImage.setIcon(null);
+		lblImage.setOpaque(true);
+		lblImage.setBackground(Color.LIGHT_GRAY);
+		lblImage.setBounds(511, 174, 245, 245);
+		pn1_1.add(lblImage);
 		
 		JPanel pn1_2 = new JPanel();
 		pn1_2.setLayout(null);
 		pn1_2.setBounds(0, 503, 784, 58);
 		frame.getContentPane().add(pn1_2);
+		
+		JButton btnInput = new JButton("상품등록");
+		btnInput.setFont(new Font("굴림", Font.BOLD, 18));
+		btnInput.setBounds(41, 10, 154, 38);
+		pn1_2.add(btnInput);
+		
+		JButton btnExit = new JButton("창닫기");
+		btnExit.setFont(new Font("굴림", Font.BOLD, 18));
+		btnExit.setBounds(597, 10, 154, 38);
+		pn1_2.add(btnExit);
 		
 		
 		
@@ -150,20 +176,101 @@ public class KioskMenuInput {
 		
 //------------------------위쪽은 디자인 , 아래쪽은 메소드------------------------------------------------------
 
-		// 메인메뉴 등록하기 마우스클릭시 수행
-//		btnMenuInput.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				frame.dispose();
-//				new KioskMenuInput();
-//			}
-//		});
+		// 상품 등록하기 마우스클릭시 수행
+		btnInput.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String part = cbPart.getSelectedItem().toString();
+				String product = txtProduct.getText();
+				String detail = txtDetail.getText();
+				String content = taContent.getText();
+				String calorie = txtCalorie.getText();
+				String strImage = lblImage.getIcon().toString();
+				String image = strImage.substring(strImage.lastIndexOf("\\")+1);
+				String strPrice = txtPrice.getText().toString();
+				
+				if(product.trim().equals("")) {
+					JOptionPane.showMessageDialog(frame, "상품명을 입력하세요");
+					txtProduct.requestFocus();
+				}
+				else if(detail.trim().equals("")) {
+					JOptionPane.showMessageDialog(frame, "상품명을 입력하세요");
+					txtDetail.requestFocus();
+				}
+				else if(image.trim().equals("")) {
+					JOptionPane.showMessageDialog(frame, "상품그림을 등록하세요");
+					txtDetail.requestFocus();
+				}
+				else if(!Pattern.matches("^[0-9]+$", strPrice)) {
+					JOptionPane.showMessageDialog(frame, "상품가격은 숫자로 입력하세요");
+					txtPrice.requestFocus();
+				}
+				else if(!Pattern.matches("^[0-9]+$", calorie)) {
+					JOptionPane.showMessageDialog(frame, "칼로리는 숫자로 입력하세요");
+					txtCalorie.requestFocus();
+				}
+				else {
+					// 상품명 중복처리
+					vo = dao.getProductSearch(product);
+					if(vo.getProduct() != null) {
+						JOptionPane.showMessageDialog(null, "이미 가입된 상품입니다. 다시 상품을 입력해 주세요.");
+						txtProduct.requestFocus();
+					}
+					else {
+						vo.setPart(part);
+						vo.setProduct(product);
+						vo.setDetail(detail);
+						vo.setContent(content);
+						vo.setCalorie(Integer.parseInt(calorie));
+						vo.setImage(image);
+						vo.setPrice(Integer.parseInt(strPrice));
+						
+						res = dao.setKooskInput(vo);
+						
+						if(res != 0) {
+							JOptionPane.showMessageDialog(null, product + " 상품이 등록되었습니다.");
+							txtProduct.setText("");
+							txtDetail.setText("");
+							taContent.setText("");
+							txtCalorie.setText("");
+							lblImage.setText("");
+							txtPrice.setText("");
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "상품 등록 실패~~ 다시 등록해 주세요.");
+							txtProduct.requestFocus();
+						}
+					}
+				}
+			}
+		});
+		
+		// 이미지 불러오기 버튼 클릭시 수행
+		btnImage.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser chooser = new JFileChooser();
+				
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG & GIF & PNG Images", "jpg","gif","png");
+				chooser.setFileFilter(filter);
+				
+				int res = chooser.showOpenDialog(null);
+				
+				if(res != chooser.APPROVE_OPTION) {
+					JOptionPane.showMessageDialog(frame, "파일을 선택해 주세요","경고",JOptionPane.WARNING_MESSAGE);
+				}
+				else {
+					String filePath = chooser.getSelectedFile().getPath();
+					lblImage.setIcon(new ImageIcon(filePath));
+				}
+			}
+		});
 		
 		// 작업종료
-//		btnExit.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				System.exit(0);
-//			}
-//		});
-	
+		btnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				new KioskMain();
+			}
+		});
+		
 	}
 }

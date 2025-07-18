@@ -48,10 +48,10 @@ public class KioskMain {
 		btnMenuInput.setBounds(427, 112, 220, 50);
 		frame.getContentPane().add(btnMenuInput);
 		
-		JButton btnMenuOrder = new JButton("메뉴 주문 하기");
-		btnMenuOrder.setFont(new Font("굴림", Font.BOLD, 20));
-		btnMenuOrder.setBounds(427, 228, 220, 50);
-		frame.getContentPane().add(btnMenuOrder);
+		JButton btnOrder = new JButton("메뉴 주문 하기");
+		btnOrder.setFont(new Font("굴림", Font.BOLD, 20));
+		btnOrder.setBounds(427, 228, 220, 50);
+		frame.getContentPane().add(btnOrder);
 		
 		JButton btnOrderCheck = new JButton("주문 확인 하기");
 		btnOrderCheck.setFont(new Font("굴림", Font.BOLD, 20));
@@ -67,6 +67,15 @@ public class KioskMain {
 		
 //------------------------위쪽은 디자인 , 아래쪽은 메소드------------------------------------------------------
 
+		
+		// 주문하기 버튼 클릭시 수행
+		btnOrder.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				new KioskOrder();
+			}
+		});
+		
 		// 메인메뉴 등록하기 마우스클릭시 수행
 		btnMenuInput.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
